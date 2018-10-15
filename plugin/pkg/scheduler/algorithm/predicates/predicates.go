@@ -838,7 +838,7 @@ func GeneralPredicates(pod *api.Pod, meta interface{}, nodeInfo *schedulercache.
 	if !fit {
 		predicateFails = append(predicateFails, reasons...)
 	}
-
+	/*
 	fit, reasons, err = PodFitsHostPorts(pod, meta, nodeInfo)
 	if err != nil {
 		return false, predicateFails, err
@@ -846,7 +846,7 @@ func GeneralPredicates(pod *api.Pod, meta interface{}, nodeInfo *schedulercache.
 	if !fit {
 		predicateFails = append(predicateFails, reasons...)
 	}
-
+	*/
 	fit, reasons, err = PodSelectorMatches(pod, meta, nodeInfo)
 	if err != nil {
 		return false, predicateFails, err

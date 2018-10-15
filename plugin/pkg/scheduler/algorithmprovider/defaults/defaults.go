@@ -22,7 +22,7 @@ import (
 	"strconv"
 
 	"k8s.io/kubernetes/pkg/api"
-	"k8s.io/kubernetes/pkg/cloudprovider/providers/aws"
+	// "k8s.io/kubernetes/pkg/cloudprovider/providers/aws"
 	"k8s.io/kubernetes/pkg/util/sets"
 	"k8s.io/kubernetes/plugin/pkg/scheduler"
 	"k8s.io/kubernetes/plugin/pkg/scheduler/algorithm"
@@ -110,6 +110,7 @@ func init() {
 
 func defaultPredicates() sets.String {
 	return sets.NewString(
+		/*
 		// Fit is determined by volume zone requirements.
 		factory.RegisterFitPredicateFactory(
 			"NoVolumeZoneConflict",
@@ -117,6 +118,7 @@ func defaultPredicates() sets.String {
 				return predicates.NewVolumeZonePredicate(args.PVInfo, args.PVCInfo)
 			},
 		),
+		*/
 		// Fit is determined by whether or not there would be too many AWS EBS volumes attached to the node
 		factory.RegisterFitPredicateFactory(
 			"MaxEBSVolumeCount",
@@ -144,14 +146,14 @@ func defaultPredicates() sets.String {
 		),
 
 		// Fit is determined by non-conflicting disk volumes.
-		factory.RegisterFitPredicate("NoDiskConflict", predicates.NoDiskConflict),
+		// factory.RegisterFitPredicate("NoDiskConflict", predicates.NoDiskConflict),
 
 		// GeneralPredicates are the predicates that are enforced by all Kubernetes components
 		// (e.g. kubelet and all schedulers)
 		factory.RegisterFitPredicate("GeneralPredicates", predicates.GeneralPredicates),
 
 		// Fit is determined based on whether a pod can tolerate all of the node's taints
-		factory.RegisterFitPredicate("PodToleratesNodeTaints", predicates.PodToleratesNodeTaints),
+		// factory.RegisterFitPredicate("PodToleratesNodeTaints", predicates.PodToleratesNodeTaints),
 
 		// Fit is determined by node memory pressure condition.
 		factory.RegisterFitPredicate("CheckNodeMemoryPressure", predicates.CheckNodeMemoryPressurePredicate),
@@ -163,6 +165,7 @@ func defaultPredicates() sets.String {
 
 func defaultPriorities() sets.String {
 	return sets.NewString(
+		/*
 		// spreads pods by minimizing the number of pods (belonging to the same service or replication controller) on the same node.
 		factory.RegisterPriorityConfigFactory(
 			"SelectorSpreadPriority",
@@ -173,6 +176,8 @@ func defaultPriorities() sets.String {
 				Weight: 1,
 			},
 		),
+		*/
+		
 		// pods should be placed in the same topological domain (e.g. same node, same rack, same zone, same power domain, etc.)
 		// as some other pods, or, conversely, should not be placed in the same topological domain as some other pods.
 		factory.RegisterPriorityConfigFactory(
@@ -190,7 +195,7 @@ func defaultPriorities() sets.String {
 
 		// Prioritizes nodes to help achieve balanced resource usage
 		factory.RegisterPriorityFunction2("BalancedResourceAllocation", priorities.BalancedResourceAllocationMap, nil, 1),
-
+		/*
 		// Set this weight large enough to override all other priority functions.
 		// TODO: Figure out a better way to do this, maybe at same time as fixing #24720.
 		factory.RegisterPriorityFunction2("NodePreferAvoidPodsPriority", priorities.CalculateNodePreferAvoidPodsPriorityMap, nil, 10000),
@@ -200,6 +205,7 @@ func defaultPriorities() sets.String {
 
 		// TODO: explain what it does.
 		factory.RegisterPriorityFunction2("TaintTolerationPriority", priorities.ComputeTaintTolerationPriorityMap, priorities.ComputeTaintTolerationPriorityReduce, 1),
+		*/
 	)
 }
 

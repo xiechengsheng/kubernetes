@@ -118,7 +118,6 @@ func defaultPredicates() sets.String {
 				return predicates.NewVolumeZonePredicate(args.PVInfo, args.PVCInfo)
 			},
 		),
-		*/
 		// Fit is determined by whether or not there would be too many AWS EBS volumes attached to the node
 		factory.RegisterFitPredicateFactory(
 			"MaxEBSVolumeCount",
@@ -144,6 +143,7 @@ func defaultPredicates() sets.String {
 				return predicates.NewPodAffinityPredicate(args.NodeInfo, args.PodLister, args.FailureDomains)
 			},
 		),
+		*/
 
 		// Fit is determined by non-conflicting disk volumes.
 		// factory.RegisterFitPredicate("NoDiskConflict", predicates.NoDiskConflict),
@@ -176,8 +176,6 @@ func defaultPriorities() sets.String {
 				Weight: 1,
 			},
 		),
-		*/
-		
 		// pods should be placed in the same topological domain (e.g. same node, same rack, same zone, same power domain, etc.)
 		// as some other pods, or, conversely, should not be placed in the same topological domain as some other pods.
 		factory.RegisterPriorityConfigFactory(
@@ -189,12 +187,14 @@ func defaultPriorities() sets.String {
 				Weight: 1,
 			},
 		),
+		*/
 
 		// Prioritize nodes by least requested utilization.
 		factory.RegisterPriorityFunction2("LeastRequestedPriority", priorities.LeastRequestedPriorityMap, nil, 1),
 
 		// Prioritizes nodes to help achieve balanced resource usage
 		factory.RegisterPriorityFunction2("BalancedResourceAllocation", priorities.BalancedResourceAllocationMap, nil, 1),
+
 		/*
 		// Set this weight large enough to override all other priority functions.
 		// TODO: Figure out a better way to do this, maybe at same time as fixing #24720.
